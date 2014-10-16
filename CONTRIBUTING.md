@@ -2,6 +2,68 @@
 
 ![Workflow Diagram](./contributing.png?raw=true "Workflow Diagram")
 
+## Git Workflow Cheatsheet:
+
+The steps for contributing a new feature are outlined here command-by-command. The rest of the document contains detailed information about each
+
+### On your first time contributing:
+
+1. Fork the repo on GitHub
+2. Clone down your fork
+```bash
+git clone https://github.com/code-duel/code-duel.git
+```
+3. Add this repo as upstream remote
+```bash
+git remote add upstream https://github.com/code-duel/code-duel.git
+```
+
+### Every time you are contributing:
+
+1. Make sure you're up to date with the upstream repo
+```bash
+git pull upstream master
+```
+2. Cut a branch using the namespaces described above:
+``` bash
+# Creates your branch and brings you there
+git checkout -b `feat/oauth`
+```
+3. Make your changes and run all of the tests to make sure that you didn't break anything when implementing your new feature
+4. Commit changes on your branch:
+```bash
+git add .
+git commit -m "(feat) Added a new feature"
+```
+5. Rebase upstream changes so that you're up to date contributing your changes
+```bash
+git pull --rebase upstream master
+```
+6. If there are conflicting changes in the rebase, check the files that were changed in both histories and pick the versions you want by doing
+```bash
+git add versionOfTheFileYouWantToCommit.js
+```
+7. If there were conflicting changes, make sure to continue the rebase after resolving conflicts
+```bash
+git rebase --continue
+```
+8. Run all of the tests to make sure you didn't break anything after rebasing!
+9. Push to your fork
+```bash
+git push origin master
+```
+10. Make a pull request from the master branch of your fork to the master branch of the code-duel organization
+11. Wait for another contributor to review your code and pull you in
+12. Make sure to go back to your master branch on your local repo
+```bash
+git checkout master
+```
+13. You probably also want to pull in all new changes from the upstream repo so that you're ready to code again
+```bash
+git pull upstream master
+```
+
+
 ## General Workflow
 
 1. Fork the repo
@@ -35,7 +97,7 @@
 Use github’s interface to make a fork of the repo, then add that repo as an upstream remote:
 
 ```
-git remote add upstream https://github.com/hackreactor-labs/<NAME_OF_REPO>.git
+git remote add upstream https://github.com/code-duel/code-duel.git
 ```
 
 ### Cut a namespaced feature branch from master
@@ -150,6 +212,7 @@ Thanks for contributing!
 1. Tests are very, very important. Submit tests if your pull request contains
    new, testable behavior.
 1. Your pull request is comprised of a single ([squashed][]) commit.
+
 
 ## Checklist:
 
