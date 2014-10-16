@@ -1,5 +1,7 @@
 # Contributing
 
+![Workflow Diagram](./contributing.png?raw=true "Workflow Diagram")
+
 ## General Workflow
 
 1. Fork the repo
