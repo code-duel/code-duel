@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/code-duel/code-duel.png?label=ready&title=Ready)](https://waffle.io/code-duel/code-duel)
 # Project Name
 
 > Pithy project description
