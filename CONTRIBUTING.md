@@ -50,9 +50,9 @@ git rebase --continue
 * Run all of the tests to make sure you didn't break anything after rebasing!
 * Push to your fork
 ```bash
-git push origin master
+git push origin feat/oauth
 ```
-* Make a pull request from the master branch of your fork to the master branch of the code-duel organization
+* Make a pull request from the feature branch of your fork to the master branch of the code-duel organization
 * Wait for another contributor to review your code and pull you in
 * Make sure to go back to your master branch on your local repo
 ```bash
