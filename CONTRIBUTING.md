@@ -62,6 +62,10 @@ git checkout master
 ```bash
 git pull upstream master
 ```
+* Lastly, you might want to delete the branch you were working on on GitHub but also on your local computer
+```bash
+git branch -D feat/oauth
+```
 
 
 ## General Workflow
