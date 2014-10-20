@@ -1,1 +1,34 @@
+
+<style type="text/css" media="screen">
+
+  #editor {
+    margin-top: 40px;
+    padding: 5px  ;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    height:350px;
+    right: 0;
+  }
+
+  /* we can/should add this to the main style sheet when it is created*/
+</style>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!---this page requires jQuery, the dependencies are not working on my machine so I left this here for testing-->
+
 <p>editor and stuff. it's the {{roomname}}</p>
+<button id="reset">Reset</button>
+<button id="submit">Submit</button>
+THEME:
+<select id="theme">
+  <option value="twilight" selected>twilight</option>
+  <option value="solarized_light">solarized light</option>
+  <!--I can add a lot more themes here if we want to keep this feature-->
+</select>
+<pre id="editor">
+</pre>
+
+<!--we can add these to the index.html file, but currently not working on my comp so I left it here for now-->
+<script src="src-noconflict/ace.js"></script>
+<script src="editorscripts/edscripts.js"></script>
