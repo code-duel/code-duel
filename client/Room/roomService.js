@@ -13,7 +13,7 @@ angular.module('app.services', [])
     
   var reset = function(prompt) {
     console.log('reset');
-    editor.setValue(prompt);
+    data.editor.setValue(prompt);
 
   };
 
