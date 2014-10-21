@@ -14,7 +14,6 @@ angular.module('app.services', [])
   var reset = function(prompt) {
     console.log('reset');
     data.editor.setValue(prompt);
-
   };
 
   var startTimer = function() {
