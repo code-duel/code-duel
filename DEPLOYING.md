@@ -29,4 +29,18 @@ azure site create <NAME_OF_SITE> --git
 ```bash
 azure site config add NODE_ENV=production
 ```
-* 
+## Every time you deploy
+* Commit the relevant changes to git
+* scale the website to prepare for deployment:
+```bash
+azure site scale mode standard <SITE_NAME>
+```
+* Push to the 'azure' remote
+```bash
+git push azure master
+```
+* Scale your site back down so that its not using your azure credit!
+```bash
+azure site scale mode free <SITE_NAME>
+```
+
