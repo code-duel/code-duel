@@ -1,16 +1,15 @@
-angular.module('app')
-  .controller('roomCtrl', function($scope, $modal, $log, userService) {
+angular.module('app.room', [])
+  .controller('roomCtrl', function($scope, $modal, $log, roomService, userService) {
     $scope.roomname = userService.user.roomname;
     $scope.username = userService.user.username;
     console.log('room controller loads');
 
     $scope.ready = false;
-
+    $scope.data = roomService;
 
     $scope.setReady = function(){
       $scope.ready = !$scope.ready;
     };
-
    
     $scope.open = function(size){
       var modalInstance = $modal.open({
@@ -25,9 +24,9 @@ angular.module('app')
    $scope.open();
     console.log('room controller has called open');
 
-    //here are our variables for start theme and prompt
+    //editor init variables
     var theme = "twilight"; 
-    var prompt = "//the prompt goes here"
+    var prompt = "\n//the prompt goes here"
     var editor = ace.edit("editor");
 
    
@@ -36,16 +35,13 @@ angular.module('app')
     editor.getSession().setMode("ace/mode/javascript");
     editor.setValue(prompt);
    
-   //this is where we will need to test the code
-   $scope.submit = function() {
-    var testThisCode = editor.getValue();
-    console.log("this needs to be evaluated!: ", testThisCode);
-   }
-
-   //this resets the editor to the original prompt
-   $scope.reset = function() {
-    console.log('reset');
-    editor.setValue(prompt);
-   }
-
+     $scope.submit = roomService.submit;
+     $scope.stopTimer = roomService.stopTimer;
+     $scope.startTimer = roomService.startTimer;
+    
+     $scope.reset = function(){
+      roomService.reset(prompt)
+     }
+     
+    
   });
