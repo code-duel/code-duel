@@ -15,7 +15,10 @@
 </style>
 
 <p ng-controller="roomCtrl">Room: {{roomname}}<br>
-
+  <button ng-click="reset()">Reset</button>
+  <button ng-click="submit()">Submit</button>
+  <div ng-click="startTimer()">{{ data.data.clock }}</div>
+>>>>>>> (cleanup) removed logic from controllers and built a factory for the rooms, also added a timer to the room
 <!-- THEME:
 <select id="theme">
   <option value="twilight" selected>twilight</option>
