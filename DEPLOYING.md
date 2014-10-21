@@ -44,3 +44,11 @@ git push azure master
 azure site scale mode free <SITE_NAME>
 ```
 
+## Other useful info on the deployed site
+
+* In order to snoop around the deployed server, go to <SITE_NAME>.scm.azurewebsites.net and log in using your azure git username and password. There you can go to the powershell debug console and look at the file system of the website. 
+
+* To see if there is anything different between your local repo and the repo in the azure website, call:
+```bash
+git diff master azure/master
+```
