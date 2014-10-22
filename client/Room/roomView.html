@@ -14,9 +14,8 @@
   /* we can/should add this to the main style sheet when it is created*/
 </style>
 
-<p ng-controller="roomCtrl">editor and stuff. it's the {{roomname}}<br>
-  <button ng-click="reset()">Reset</button>
-  <button ng-click="submit()">Submit</button>
+<p ng-controller="roomCtrl">Room: {{roomname}}<br>
+
 <!-- THEME:
 <select id="theme">
   <option value="twilight" selected>twilight</option>
@@ -25,4 +24,6 @@
 </select>-->
   <div id="editor">
   </div>
+  <button ng-click="reset()">Reset</button>
+  <button ng-click="submit()">Submit</button>
 </p>
