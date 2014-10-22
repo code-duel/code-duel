@@ -2,9 +2,8 @@
   <head>
     <title>Code Duel</title>
     <link rel="stylesheet" href="lib/bootstrap.min.css" />
-  </head>
-  <body ng-view="">
     
+    <script src="/socket.io/socket.io.js"></script>
     <script src="lib/angular.min.js"></script>
     <script src="lib/angular-route.min.js"></script>
     <script src="lib/ui-bootstrap-tpls-0.11.2.min.js"></script>
@@ -17,6 +16,8 @@
     <script src="Waiting/waitingCtrl.js"></script>
     <script src="services/userService.js"></script>
     
+  </head>
+  <body ng-view="">
     <script src="Room/src-noconflict/ace.js"></script>
   </body>
 </html>
