@@ -13,7 +13,8 @@ app.use(express.static(__dirname + '/client'));
 // globals
 var users = {
   userCount: 0,
-  userList: [],
+  socketList: [],
+  userNames: [],
   userRooms: []
 }
 
@@ -32,19 +33,20 @@ io.on('connection', function(socket){
 
 
   // add to room
-  socket.on('addToRoom', function(room){
+  socket.on('addToRoom', function(username, room){
 
     // variable used to determine number of users in a room
     var roomLen = io.sockets.adapter.rooms[room];
 
     // if room isn't full, add the user and update the users object
     var addUser =  function(){
-      users.userList.push(userId);
-      users.userRooms.push([userId, room]);
+      users.socketList.push(userId);
+      users.userNames.push(username);
+      users.userRooms.push([userId, username, room]);
       socket.join(room);
 
-      console.log(userId, "added to", room);
-      io.sockets.in(room).emit('joinedRoom', room);
+      console.log(username ,"(",userId,")", "added to", room);
+      io.sockets.in(room).emit('joinedRoom', username, room);
     };
 
     // when room has a total of 2 people, send prompt to that specific room
@@ -63,7 +65,7 @@ io.on('connection', function(socket){
       addUser();
 
     // second user to a single room  
-    } else if (Object.keys(roomLen).length < 2 && users.userList.indexOf(userId) === -1){
+    } else if (Object.keys(roomLen).length < 2 && users.socketList.indexOf(userId) === -1){
       addUser();
       providePrompt(room);
     }
@@ -91,9 +93,6 @@ io.on('connection', function(socket){
 
   // ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~
 
-
-  // FOR LATER
-  
   // socket.on('scoreSent', function(score){
   //   console.log("Score received:", score);
   // });
@@ -109,7 +108,7 @@ io.on('connection', function(socket){
       if(users.userRooms[i][0] === userId){
 
         // destroy "room" session for all users
-        var currentRoom = users.userRooms[i][1];
+        var currentRoom = users.userRooms[i][2];
         io.sockets.in(currentRoom).emit('destroyPrompt');
 
         // remove user/room from object
@@ -118,9 +117,10 @@ io.on('connection', function(socket){
       }
     }
 
-    for(var i = 0; i < users.userList.length; i++){
-      if(users.userList[i] === userId){
-        users.userList.splice([i], 1);
+    for(var i = 0; i < users.socketList.length; i++){
+      if(users.socketList[i] === userId){
+        users.socketList.splice([i], 1);
+        users.userNames.splice([i], 1);
         break;
       }
     }
@@ -130,7 +130,6 @@ io.on('connection', function(socket){
     console.log(users);
   });
 });
-
 
 http.listen(port, function(){
   console.log('listening on port:', port);
