@@ -15,7 +15,9 @@
 </style>
 
 <p ng-controller="roomCtrl">Room: {{roomname}}<br>
-
+  <button ng-click="reset()">Reset</button>
+  <button ng-click="submit()">Submit</button>
+  <div ng-click="startTimer()">{{ data.data.clock }}</div>
 <!-- THEME:
 <select id="theme">
   <option value="twilight" selected>twilight</option>
@@ -24,6 +26,4 @@
 </select>-->
   <div id="editor">
   </div>
-  <button ng-click="reset()">Reset</button>
-  <button ng-click="submit()">Submit</button>
 </p>
