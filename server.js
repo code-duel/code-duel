@@ -33,20 +33,21 @@ io.on('connection', function(socket){
 
 
   // add to room
-  socket.on('addToRoom', function(username, room){
-
+  socket.on('addToRoom', function(room){
+    // console.log('username is ', username);
+    console.log('room is ', room);
     // variable used to determine number of users in a room
     var roomLen = io.sockets.adapter.rooms[room];
 
     // if room isn't full, add the user and update the users object
     var addUser =  function(){
       users.socketList.push(userId);
-      users.userNames.push(username);
-      users.userRooms.push([userId, username, room]);
+      // users.userNames.push(username);
+      // users.userRooms.push([userId, username, room]);
       socket.join(room);
 
-      console.log(username ,"(",userId,")", "added to", room);
-      io.sockets.in(room).emit('joinedRoom', username, room);
+      // console.log(username ,"(",userId,")", "added to", room);
+      io.sockets.in(room).emit('joinedRoom', room);
     };
 
     // when room has a total of 2 people, send prompt to that specific room
@@ -72,12 +73,17 @@ io.on('connection', function(socket){
 
   });
 
+  socket.on('butt', function(){
+    console.log('eww gross');
+  });
 
 // ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~
 
   //helper fuction checks if room is full
-  socket.on('checkroom', function(specificRoom){
+  socket.on('checkRoom', function(specificRoom){
+    console.log('checking room ' + specificRoom);
     var roomLen = io.sockets.adapter.rooms[specificRoom];
+    console.log(roomLen);
     var isFull;
 
     if(!roomLen){

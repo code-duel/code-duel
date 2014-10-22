@@ -1,5 +1,6 @@
 angular.module('app.room', [])
   .controller('roomCtrl', function($scope, $modal, $log, roomService, userService) {
+
     $scope.roomname = userService.user.roomname;
     $scope.username = userService.user.username;
     console.log('room controller loads');
