@@ -33,31 +33,44 @@ io.on('connection', function(socket){
 
 
   // add to room
-  socket.on('addToRoom', function(username, room){
-
+  socket.on('addToRoom', function(room){
+    // console.log('username is ', username);
+    console.log('room is ', room);
     // variable used to determine number of users in a room
     var roomLen = io.sockets.adapter.rooms[room];
 
     // if room isn't full, add the user and update the users object
     var addUser =  function(){
       users.socketList.push(userId);
-      users.userNames.push(username);
-      users.userRooms.push([userId, username, room]);
+      // users.userNames.push(username);
+      // users.userRooms.push([userId, username, room]);
       socket.join(room);
 
-      console.log(username ,"(",userId,")", "added to", room);
-      io.sockets.in(room).emit('joinedRoom', username, room);
+      console.log(socket.id);
+      console.log(room);
+      console.log(roomLen);
+      console.log(users);
+      console.log('-----------------------now we are looking here');
+      // console.log(username ,"(",userId,")", "added to", room);
+      io.sockets.in(room).emit('joinedRoom', room);
     };
 
     // when room has a total of 2 people, send prompt to that specific room
     var providePrompt = function(specificRoom){
 
       // this logic just grabs a random prompt
-      var prompts = ["Hello, solve this problem", "Solve this one", "Solve this other one too", "Waa waa waaaaaa", "Prompty Prompt", "abcdefg", "hijklmnop", "phhbbbbbbb"];
+      var prompts = ["Write a function that calulates 2 + 2.", "Write a function that calculates 2+2. Recursively.", "Write a function that calculates the nth digit of PI.", "Implement underscore\'s reduceRight method. Your solution should work for objects and for arrays.", "Write DOOM. In JavaScript."];
       var prompt = prompts[Math.floor(Math.random() * prompts.length)];
-
+      
+      console.log(socket.id);
+      console.log(specificRoom);
+      console.log(roomLen);
+      console.log(users);
+      console.log('-----------------------here');
       // sends the prompt to a single room (the one pinging providePrompt)
       io.sockets.in(specificRoom).emit('displayPrompt', prompt);
+      // io.sockets.broadcast.to(specificRoom).emit('displayPrompt', prompt);
+      // io.emit('displayPrompt', prompt);
     };
 
     // user one, room doesn't exist
@@ -67,17 +80,18 @@ io.on('connection', function(socket){
     // second user to a single room  
     } else if (Object.keys(roomLen).length < 2 && users.socketList.indexOf(userId) === -1){
       addUser();
-      providePrompt(room);
+      setTimeout(function(){providePrompt(room);}, 1000);
     }
 
   });
 
-
 // ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~
 
   //helper fuction checks if room is full
-  socket.on('checkroom', function(specificRoom){
+  socket.on('checkRoom', function(specificRoom){
+    console.log('checking room ' + specificRoom);
     var roomLen = io.sockets.adapter.rooms[specificRoom];
+    console.log(roomLen);
     var isFull;
 
     if(!roomLen){
