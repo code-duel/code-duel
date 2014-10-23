@@ -91,6 +91,8 @@ io.on('connection', function(socket){
     } else {
       isFull = Object.keys(roomLen).length >= 2 ? true : false;
     }
+    console.log('-------------------------wat----------------');
+    console.log(isFull);
 
     console.log("Fullness status of", specificRoom, ":", isFull);
     io.emit('roomStatus', isFull);

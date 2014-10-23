@@ -9,21 +9,25 @@ angular.module('app')
       socket.emit('checkRoom', $scope.roomname);
 
       // socket.emit('butt');
+      $scope.pickNewRoom = false;
 
       socket.on('roomStatus', function(isFull){
+        $scope.roomfull = isFull;
         console.log($scope.roomname);
         console.log("IS FULL:", isFull);
           if(isFull){
+            $scope.pickNewRoom = true;
             console.log("Pick a new room!");
           } else if (isFull === false) {
             socket.emit('addToRoom', $scope.roomname);
+            $location.url('/room'); //TODO: fix this for case: room is full
           }
       });
 
       socket.on('joinedRoom', function(room){
         console.log("You are in room:", room);
       });
-
-      $location.url('/room'); //TODO: fix this for case: room is full
+      // if (!$scope.roomfull){
+      // }
     };
   });
