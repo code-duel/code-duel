@@ -2,7 +2,6 @@ angular.module('app')
   .controller('loginCtrl', function($scope, $location, userService, socket) {
     $scope.submitUserRoom = function(){
       //send $scope.username and $scope.roomname to our sockets service somehow.
-      console.log('you clicked the button');
       userService.user.username = $scope.username;
       userService.user.roomname = $scope.roomname;
 
@@ -20,7 +19,7 @@ angular.module('app')
             console.log("Pick a new room!");
           } else if (isFull === false) {
             socket.emit('addToRoom', $scope.roomname);
-            $location.url('/room'); //TODO: fix this for case: room is full
+            $location.url('/room'); 
           }
       });
 

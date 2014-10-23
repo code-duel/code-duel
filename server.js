@@ -46,6 +46,11 @@ io.on('connection', function(socket){
       // users.userRooms.push([userId, username, room]);
       socket.join(room);
 
+      console.log(socket.id);
+      console.log(room);
+      console.log(roomLen);
+      console.log(users);
+      console.log('-----------------------now we are looking here');
       // console.log(username ,"(",userId,")", "added to", room);
       io.sockets.in(room).emit('joinedRoom', room);
     };
@@ -54,11 +59,18 @@ io.on('connection', function(socket){
     var providePrompt = function(specificRoom){
 
       // this logic just grabs a random prompt
-      var prompts = ["Hello, solve this problem", "Solve this one", "Solve this other one too", "Waa waa waaaaaa", "Prompty Prompt", "abcdefg", "hijklmnop", "phhbbbbbbb"];
+      var prompts = ["Write a function that calulates 2 + 2.", "Write a function that calculates 2+2. Recursively.", "Write a function that calculates the nth digit of PI.", "Implement underscore\'s reduceRight method. Your solution should work for objects and for arrays.", "Write DOOM. In JavaScript."];
       var prompt = prompts[Math.floor(Math.random() * prompts.length)];
-
+      
+      console.log(socket.id);
+      console.log(specificRoom);
+      console.log(roomLen);
+      console.log(users);
+      console.log('-----------------------here');
       // sends the prompt to a single room (the one pinging providePrompt)
       io.sockets.in(specificRoom).emit('displayPrompt', prompt);
+      // io.sockets.broadcast.to(specificRoom).emit('displayPrompt', prompt);
+      // io.emit('displayPrompt', prompt);
     };
 
     // user one, room doesn't exist
@@ -68,13 +80,9 @@ io.on('connection', function(socket){
     // second user to a single room  
     } else if (Object.keys(roomLen).length < 2 && users.socketList.indexOf(userId) === -1){
       addUser();
-      providePrompt(room);
+      setTimeout(function(){providePrompt(room);}, 1000);
     }
 
-  });
-
-  socket.on('butt', function(){
-    console.log('eww gross');
   });
 
 // ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~
@@ -91,8 +99,6 @@ io.on('connection', function(socket){
     } else {
       isFull = Object.keys(roomLen).length >= 2 ? true : false;
     }
-    console.log('-------------------------wat----------------');
-    console.log(isFull);
 
     console.log("Fullness status of", specificRoom, ":", isFull);
     io.emit('roomStatus', isFull);
