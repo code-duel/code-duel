@@ -1,4 +1,6 @@
 angular.module('app', [
+  'app.room',
+  'app.services',
   'ngRoute',
   'ui.bootstrap'
   ])
