@@ -1,13 +1,9 @@
 angular.module('app')
-  .controller('loginCtrl', function($scope, $location, userService, socket) {
+  .controller('loginCtrl', function($scope, $location, socket) {
     $scope.submitUserRoom = function(){
-      //send $scope.username and $scope.roomname to our sockets service somehow.
-      userService.user.username = $scope.username;
-      userService.user.roomname = $scope.roomname;
 
       socket.emit('checkRoom', $scope.roomname);
 
-      // socket.emit('butt');
       $scope.pickNewRoom = false;
 
       socket.on('roomStatus', function(isFull){
@@ -18,7 +14,7 @@ angular.module('app')
             $scope.pickNewRoom = true;
             console.log("Pick a new room!");
           } else if (isFull === false) {
-            socket.emit('addToRoom', $scope.roomname);
+            socket.emit('addToRoom', {$scope.username, $scope.roomname});
             $location.url('/room'); 
           }
       });
@@ -26,7 +22,5 @@ angular.module('app')
       socket.on('joinedRoom', function(room){
         console.log("You are in room:", room);
       });
-      // if (!$scope.roomfull){
-      // }
     };
   });
