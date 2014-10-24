@@ -1,47 +1,61 @@
-angular.module('app.room', [])
-  .controller('roomCtrl', function($scope, $modal, $log, roomService, userService) {
-    $scope.roomname = userService.user.roomname;
-    $scope.username = userService.user.username;
-    console.log('room controller loads');
+angular.module('app')
+  .controller('roomCtrl', function($scope, $log, socket) {
 
-    $scope.ready = false;
-    $scope.data = roomService;
-
-    $scope.setReady = function(){
-      $scope.ready = !$scope.ready;
-    };
-   
-    $scope.open = function(size){
-      var modalInstance = $modal.open({
-        templateUrl: 'Waiting/waitingView.html',
-        controller: 'waitingCtrl',
-        size: size
-      });
-    };
-
-    console.log('room controller is about to call open');
-
-   $scope.open();
-    console.log('room controller has called open');
-
-    //editor init variables
-    var theme = "twilight"; 
-    var prompt = "\n//the prompt goes here"
-    var editor = ace.edit("editor");
-
-   
-   //this adds the editor to the view with default settings
-    editor.setTheme("ace/theme/"+ theme);
-    editor.getSession().setMode("ace/mode/javascript");
-    editor.setValue(prompt);
-   
-     $scope.submit = roomService.submit;
-     $scope.stopTimer = roomService.stopTimer;
-     $scope.startTimer = roomService.startTimer;
+     //here are our variables for start theme and prompt
+     var theme = "twilight"; 
+     var editor = ace.edit("editor");
+     $scope.prompt = '//Your prompt will appear momentarily';
     
-     $scope.reset = function(){
-      roomService.reset(prompt)
-     }
-     
+    //this adds the editor to the view with default settings
+     editor.setTheme("ace/theme/"+ theme);
+     editor.getSession().setMode("ace/mode/javascript");
+     editor.setValue($scope.prompt);
+ 
+     socket.on('joinedRoom', function(room){
+       console.log(room + ' has been joined, BABIES');
+     });
+ 
+     socket.on('displayPrompt', function(prompt){
+       $scope.prompt = prompt;
+       editor.setValue('//' + prompt);
+     });
+
+    socket.on('destroyPrompt', function(){
+       $scope.prompt = '//Your prompt will appear momentarily';
+       editor.setValue($scope.prompt);
+     });
+
+    socket.on('sendScore', function(codeScore){
+      console.log(codeScore, "CODE SCORE");
+      var codeResult = codeScore.result;
+      $scope.score = codeScore.score;
+      editor.setValue('// Your code resulted in: ' + codeResult + ' ||  Your score is: ' + $scope.score);
+     });
+
+    socket.on('isWinner', function(isWinner){
+      console.log("is Winner??", isWinner);
+      setTimeout(function(){
+        if(isWinner){
+          editor.setValue('YOU HAVE WON! Your score is ' + $scope.score);
+        } else {
+          editor.setValue('YOU HAVE LOST! Your score is ' + $scope.score);
+        }
+      }, 1000);
+     });
+ 
     
+    //this is where we will need to test the code
+    $scope.submit = function() {
+     var userCode = editor.getValue();
+     console.log('CODE-DUEL: Sending code to be evaluated.');
+     socket.emit('sendCode', userCode);
+    };
+ 
+    //this resets the editor to the original prompt
+    $scope.reset = function() {
+     console.log('reset');
+     console.log('//' + $scope.prompt);
+     editor.setValue($scope.prompt);
+    };
+
   });

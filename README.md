@@ -1,12 +1,12 @@
-# Project Name
+# Code Duel
 
-> Pithy project description
+Coderbyte meets Chatroulette.
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Allen J Price
+  - __Scrum Master__: Sebastian Delgado
+  - __Development Team Members__: Kelly Hale, Morgan Plant
 
 ## Table of Contents
 
@@ -20,15 +20,15 @@
 
 ## Usage
 
-> Some usage instructions
+Grab a friend and head to [codeduel.azurewebsites.com](http://codeduel.azurewebsites.com). Sign in, join a room, and do BATTLE.
 
 ## Requirements
 
+- AngularJS 1.3.x
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Express 4.9.7
+- Socket.io 1.0.x
+
 
 ## Development
 
@@ -39,12 +39,11 @@ From within the root directory:
 ```sh
 sudo npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/code-duel/code-duel/issues)
 
 
 ## Contributing

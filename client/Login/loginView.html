@@ -11,6 +11,7 @@
 					  <br>
 					  <input type="text" name="roomname" placeholder="Room" ng-model="roomname" class="form-control"/>
 					  <br>
+					  <p ng-show="pickNewRoom">That room is taken! Pick another one.</p>
 				  	<button ng-click="submitUserRoom()" class="btn btn-large btn-primary btn-block">Join</button>
 				  </form>
 				</div>
