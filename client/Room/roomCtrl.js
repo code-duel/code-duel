@@ -1,5 +1,12 @@
 angular.module('app')
-  .controller('roomCtrl', function($scope, $log, socket) {
+  .controller('roomCtrl', function($scope, $log, $timeout, socket) {
+     
+     //timer init variables
+     $scope.clock = {
+       time: 0,
+       timer: null,
+       notcalled: true
+     }
 
      //here are our variables for start theme and prompt
      var theme = "twilight"; 
@@ -11,6 +18,7 @@ angular.module('app')
      editor.getSession().setMode("ace/mode/javascript");
      editor.setValue($scope.prompt);
  
+   
      socket.on('joinedRoom', function(room){
        console.log(room + ' has been joined, BABIES');
        $scope.roomname = room;
@@ -19,11 +27,22 @@ angular.module('app')
      socket.on('displayPrompt', function(prompt){
        $scope.prompt = prompt;
        editor.setValue(prompt);
+
+       //delay clock 1 second to help sync up clocks
+       if($scope.clock.notcalled){
+         setTimeout(function(){
+           $scope.startTimer();
+         }, 1000);
+         //only call timer 1x
+         $scope.clock.notcalled = false;
+       }
      });
 
     socket.on('destroyPrompt', function(){
        $scope.prompt = '//Your prompt will appear momentarily';
        editor.setValue($scope.prompt);
+       $scope.stopTimer();
+      
      });
 
     socket.on('sendScore', function(codeScore){
@@ -58,5 +77,19 @@ angular.module('app')
      console.log('//' + $scope.prompt);
      editor.setValue($scope.prompt);
     };
+    
+    $scope.startTimer = function() {
+      $scope.clock.timer = $timeout(function(){
+        $scope.clock.time++;
+        $scope.startTimer();
+      }, 100);
+    };
+
+    $scope.stopTimer = function() {
+      $timeout.cancel($scope.clock.timer);
+      $scope.clock.timer = null;
+      $scope.clock.time = 0;
+      $scope.clock.notcalled = true;
+    }
 
   });
