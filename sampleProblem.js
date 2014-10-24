@@ -81,6 +81,6 @@ describe('Count even fibonacci numbers up to N', function() {
   	evenFib(1).should.equal(0);
   });
   it('should not break when looking for 0 fibonacci numbers', function(){
-  	evenFib(1).should.equal(0);
+  	evenFib(0).should.equal(0);
   });
 });

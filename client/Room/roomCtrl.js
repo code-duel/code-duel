@@ -4,7 +4,7 @@ angular.module('app')
      //here are our variables for start theme and prompt
      var theme = "twilight"; 
      var editor = ace.edit("editor");
-     $scope.prompt = '//Your prompt will appear momentarily';
+     $scope.prompt = '//Your prompt will appear when your opponent joins the room \n //Ask a friend to join this room to duel';
     
     //this adds the editor to the view with default settings
      editor.setTheme("ace/theme/"+ theme);
@@ -13,11 +13,12 @@ angular.module('app')
  
      socket.on('joinedRoom', function(room){
        console.log(room + ' has been joined, BABIES');
+       $scope.roomname = room;
      });
  
      socket.on('displayPrompt', function(prompt){
        $scope.prompt = prompt;
-       editor.setValue('//' + prompt);
+       editor.setValue(prompt);
      });
 
     socket.on('destroyPrompt', function(){
