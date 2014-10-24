@@ -19,6 +19,30 @@ angular.module('app')
        $scope.prompt = prompt;
        editor.setValue('//' + prompt);
      });
+
+    socket.on('destroyPrompt', function(){
+       $scope.prompt = '//Your prompt will appear momentarily';
+       editor.setValue($scope.prompt);
+     });
+
+    socket.on('sendScore', function(codeScore){
+      console.log(codeScore, "CODE SCORE");
+      var codeResult = codeScore.result;
+      $scope.score = codeScore.score;
+      editor.setValue('// Your code resulted in: ' + codeResult + ' ||  Your score is: ' + $scope.score);
+     });
+
+    socket.on('isWinner', function(isWinner){
+      console.log("is Winner??", isWinner);
+      setTimeout(function(){
+        if(isWinner){
+          editor.setValue('YOU HAVE WON! Your score is ' + $scope.score);
+        } else {
+          editor.setValue('YOU HAVE LOST! Your score is ' + $scope.score);
+        }
+      }, 1000);
+     });
+ 
     
     //this is where we will need to test the code
     $scope.submit = function() {
