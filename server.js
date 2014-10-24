@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
@@ -51,7 +53,10 @@ io.on('connection', function(socket){
       socket.join(room);
      
       console.log(user ,"(",userId,")", "added to", room);
-      io.sockets.in(room).emit('joinedRoom', room);
+      setTimeout(function() {
+        io.sockets.in(room).emit('joinedRoom', room);
+      }, 1000)
+      
     };
 
 
@@ -59,11 +64,23 @@ io.on('connection', function(socket){
     var providePrompt = function(specificRoom){
 
       // this logic just grabs a random prompt
-      var prompts = ["Write a function that calulates 2 + 2.", "Write a function that calculates 2+2. Recursively.", "Write a function that calculates the nth digit of PI.", "Implement underscore\'s reduceRight method. Your solution should work for objects and for arrays.", "Write DOOM. In JavaScript."];
-      var prompt = prompts[Math.floor(Math.random() * prompts.length)];
-      
-      // sends the prompt to a single room (the one pinging providePrompt)
-      io.sockets.in(specificRoom).emit('displayPrompt', prompt);
+      var prompts = fs.readdirSync('./problems');
+      // the directories in the 'problems' directory must be names after
+      // their corresponding functions and there cannot be anything in 
+      // 'problems' that isn't a problem directory
+      var problemName = prompts[Math.floor(Math.random() * prompts.length)];
+      // reads the prompt from the appropriate directory and
+      // sends it to a single room (the one pinging providePrompt)
+      fs.readFile('./problems/' + problemName + '/prompt.js', 'utf8',
+        function(err,data) {
+        if (err) {
+          console.error(err);
+        }
+        else {
+          var prompt = data;
+          io.sockets.in(specificRoom).emit('displayPrompt', prompt);
+        }
+      });
     };
 
 
@@ -77,7 +94,9 @@ io.on('connection', function(socket){
       io.sockets.adapter.rooms[room]['highScore'] = 0;
       io.sockets.adapter.rooms[room]['firstPlayer'] = null;
       addUser();
-      setTimeout(function(){providePrompt(room);}, 1000);
+      setTimeout(function(){
+        providePrompt(room);
+      }, 1000);
     }
 
   });
