@@ -1,9 +1,4 @@
-angular.module('app', [
-  'app.room',
-  'app.services',
-  'ngRoute',
-  'ui.bootstrap'
-  ])
+angular.module('app', ['ngRoute'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

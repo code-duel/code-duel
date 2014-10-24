@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('roomCtrl', function($scope, $modal, $log, socket) {
+  .controller('roomCtrl', function($scope, $log, socket) {
 
      //here are our variables for start theme and prompt
      var theme = "twilight"; 
