@@ -10,6 +10,11 @@ angular.module('app')
        notcalled: true
      };
 
+     $scope.noOpponent = true;
+     $scope.finishBeforeOpponent = false;
+     $scope.victory=false;
+     $scope.defeat=false;
+
      //here are our variables for start theme and prompt
      var theme = "twilight"; 
      var editor = ace.edit("editor");
@@ -30,7 +35,7 @@ angular.module('app')
        console.log('received prompt: ' + JSON.stringify(problem));
        $scope.prompt = problem.prompt;
        $scope.problemName = problem.problemName;
-
+       $scope.noOpponent=false;
        editor.setValue($scope.prompt);
 
        //delay clock 1 second to help sync up clocks
@@ -45,7 +50,7 @@ angular.module('app')
 
     socket.on('destroyPrompt', function(){
        $scope.prompt = '//Your prompt will appear momentarily';
-       editor.setValue($scope.prompt);
+       2($scope.prompt);
        $scope.stopTimer();
       
      });
@@ -54,7 +59,8 @@ angular.module('app')
       console.log(codeScore, "CODE SCORE");
       //var codeResult = codeScore.result;
       $scope.score = codeScore;
-      editor.setValue('// Your score is: ' + $scope.score + '\n // Now waiting for your opponent to finish');
+      $scope.finishBeforeOpponent=true;
+      // editor.setValue('// Your score is: ' + $scope.score + '\n // Now waiting for your opponent to finish');
       //editor.setValue('// Your code resulted in: ' + codeResult + ' ||  Your score is: ' + $scope.score);
      });
 
@@ -62,9 +68,15 @@ angular.module('app')
       console.log("is Winner??", JSON.stringify(isWinner.isWinner));
       setTimeout(function(){
         if(isWinner.isWinner){
-          editor.setValue('// YOU HAVE WON! Your score is ' + $scope.score + '\n// Your oppenents score was ' + isWinner.opponentScore);
+          $scope.opponentScore = isWinner.opponentScore;
+          $scope.finishBeforeOpponent=false;
+          $scope.victory = true;
+          // editor.setValue('// YOU HAVE WON! Your score is ' + $scope.score + '\n// Your oppenents score was ' + isWinner.opponentScore);
         } else {
-          editor.setValue('// YOU HAVE LOST! Your score is ' + $scope.score + '\n// Your oppenents score was ' + isWinner.opponentScore);
+          $scope.opponentScore = isWinner.opponentScore;
+          $scope.finishBeforeOpponent=false;
+          $scope.defeat = true;
+          // editor.setValue('// YOU HAVE LOST! Your score is ' + $scope.score + '\n// Your oppenents score was ' + isWinner.opponentScore);
         }
       }, 1000);
      });
