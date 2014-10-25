@@ -78,7 +78,7 @@ io.on('connection', function(socket){
         }
         else {
           var prompt = data;
-          io.sockets.in(specificRoom).emit('displayPrompt', prompt);
+          io.sockets.in(specificRoom).emit('displayPrompt', {prompt: prompt, problemName: problemName});
         }
       });
     };
@@ -124,57 +124,56 @@ io.on('connection', function(socket){
   // ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~  ***  ~~~~~~~~~~~~~
 
   socket.on('sendCode', function(code){
-    var codeScore = {};
 
-    var result = []; 
-    result.push(eval(code));
-    var score = Math.floor(Math.random() * 10) + 1;  
+    // get the function evaluated
+    eval(code.code);
+    // run the tests
+    var test = require('./problems/' + code.problemName + '/test.js');
+    var percentageRight = test.testFunction(eval(code.problemName));
+    // Get the time it took to write the function
+    var timeTaken = code.timeTaken;
+    // Compute the score
+    // The algorithm is mostly based on the tests with time taken
+    // used to break ties between people who passed the same tests
+    console.log('rwf', percentageRight);
+    console.log('rwf', timeTaken);
+    var score = Math.floor((percentageRight * 10) + (100/timeTaken));
+    console.log("Final score is: " + score);
+    // Send the score back to the user
+    io.sockets.in(userId).emit('sendScore', score);
+
+    // look at the user obj to figure out where we are currently
+    for(var i = 0; i < users.userRooms.length; i++){
+      if(users.userRooms[i][0] === userId){
+        var currentUser = users.userRooms[i][0]
+        var currentRoom = users.userRooms[i][2];
+        var currentScore = users.userRooms[i][3] = score;
+        break;
+      }
+    }
+
+    // if first run, this should be set to zero
+    if(io.sockets.adapter.rooms[currentRoom]['highScore'] === 0){
+      // thus, set the room's highScore to the score of the first submitter
+      io.sockets.adapter.rooms[currentRoom]['highScore'] = currentScore;
+      // set the room's first submitter to "firstPlayer"
+      io.sockets.adapter.rooms[currentRoom]['firstPlayer'] = currentUser;
+
+    } else {
+      var roomHighScore = io.sockets.adapter.rooms[currentRoom]['highScore'];
+      if(roomHighScore < currentScore){
+        // second player is the winner
+        console.log("SECOND USER WINS");
+        io.sockets.in(io.sockets.adapter.rooms[currentRoom]['firstPlayer']).emit('isWinner', {isWinner: false, opponentScore: currentScore});
+        io.sockets.in(currentUser).emit('isWinner', {isWinner: true, opponentScore: roomHighScore});  
+      } else {
+        // first player is the winner
+        console.log("FIRST USER WINS");
+        io.sockets.in(io.sockets.adapter.rooms[currentRoom]['firstPlayer']).emit('isWinner', {isWinner: true, opponentScore: currentScore});
+        io.sockets.in(currentUser).emit('isWinner', {isWinner: false, opponentScore: roomHighScore});  
+      }
       
-
-      // wait for eval to return...
-        setTimeout(function(){
-          console.log("Code evaluates to:", result.toString());
-          console.log("Score is:", score);
-          
-          codeScore.result = result.toString();
-          codeScore.score = score;
-
-          // look at the user obj to figure out where we are currently
-          for(var i = 0; i < users.userRooms.length; i++){
-            if(users.userRooms[i][0] === userId){
-              var currentUser = users.userRooms[i][0]
-              var currentRoom = users.userRooms[i][2];
-              var currentScore = users.userRooms[i][3] = score;
-              break;
-            }
-          }
-
-          io.sockets.in(userId).emit('sendScore', codeScore);
-
-          // if first run, this should be set to zero
-          if(io.sockets.adapter.rooms[currentRoom]['highScore'] === 0){
-            // thus, set the room's highScore to the score of the first submitter
-            io.sockets.adapter.rooms[currentRoom]['highScore'] = currentScore;
-            // set the room's first submitter to "firstPlayer"
-            io.sockets.adapter.rooms[currentRoom]['firstPlayer'] = currentUser;
-
-          } else {
-            
-            if(io.sockets.adapter.rooms[currentRoom]['highScore'] < currentScore){
-              // second player is the winner
-              console.log("SECOND USER WINS");
-              io.sockets.in(io.sockets.adapter.rooms[currentRoom]['firstPlayer']).emit('isWinner', false);
-              io.sockets.in(currentUser).emit('isWinner', true);  
-            } else {
-              // first player is the winner
-              console.log("FIRST USER WINS");
-              io.sockets.in(io.sockets.adapter.rooms[currentRoom]['firstPlayer']).emit('isWinner', true);
-              io.sockets.in(currentUser).emit('isWinner', false);  
-            }
-            
-          }
-
-        }, 1000); // this can be lengthened to give the impression of processing time, haha
+    }
 
   });
 
