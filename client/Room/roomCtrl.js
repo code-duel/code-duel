@@ -26,9 +26,11 @@ angular.module('app')
      editor.setValue($scope.prompt);
  
    
-     socket.on('joinedRoom', function(room){
-       console.log(room + ' has been joined, BABIES');
-       $scope.roomname = room;
+     socket.on('joinedRoom', function(roominfo){
+       console.log(roominfo.name + ' has been joined, BABIES');
+       $scope.roomname = roominfo.name;
+       console.log(roominfo.name, "==============")
+       $scope.playername = roominfo.player
      });
  
      socket.on('displayPrompt', function(problem){
@@ -50,7 +52,7 @@ angular.module('app')
 
     socket.on('destroyPrompt', function(){
        $scope.prompt = '//Your prompt will appear momentarily';
-       2($scope.prompt);
+       //2($scope.prompt);
        $scope.stopTimer();
       
      });
@@ -92,7 +94,9 @@ angular.module('app')
         {
         code: userCode, 
         problemName: $scope.problemName,
-        timeTaken: $scope.clock.time
+        timeTaken: $scope.clock.time,
+        player: $scope.playername
+        
       });
       $scope.stopTimer();
     };

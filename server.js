@@ -6,6 +6,7 @@ var http = require('http').Server(app);
 var bodyParser = require('body-parser');
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
+var db = require('./db');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -45,19 +46,42 @@ io.on('connection', function(socket){
     var roomLen = io.sockets.adapter.rooms[room];
 
 
+
+ 
     // if room isn't full, add the user and update the users object
+
     var addUser =  function(){
       users.socketList.push(userId);
       users.userNames.push(user);
       users.userRooms.push([userId, user, room, 0]);
       socket.join(room);
      
+      //send room and user data to room ***
+      var roominfo = {
+        name: room,
+        id: userId,
+        player: user
+      }
+      
       console.log(user ,"(",userId,")", "added to", room);
       setTimeout(function() {
-        io.sockets.in(room).emit('joinedRoom', room);
+        io.sockets.in(room).emit('joinedRoom', roominfo);
       }, 1000)
       
     };
+    
+      //check if user exist
+    db.checkIfUserExists(user, function(exists){
+      if(exists){
+       console.log('exists')
+        db.updateUser(user, userId);
+      } else {
+        console.log('adding user')
+        db.addUser(user, userId);
+
+      }
+
+    });  
 
 
     // when room has a total of 2 people, send prompt to that specific room
