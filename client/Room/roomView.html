@@ -2,10 +2,10 @@
 <style type="text/css" media="screen">
 
   #editor {
-    margin-top: 40px;
+    margin-top: 10px;
     padding: 0px;
     position: absolute;
-    top: 40px;
+    top: 10px;
     left: 0;
     height:350px;
     right: 0;
@@ -13,17 +13,23 @@
 
   /* we can/should add this to the main style sheet when it is created*/
 </style>
-
-<p ng-controller="roomCtrl">Room: {{roomname}}<br>
-  <button ng-click="reset()">Reset</button>
-  <button ng-click="submit()">Submit</button>
-  <div>Time: {{ clock.time }}</div>
-<!-- THEME:
-<select id="theme">
-  <option value="twilight" selected>twilight</option>
-  <option value="solarized_light">solarized light</option> 
-  I can add a lot more themes here if we want to keep this feature
-</select>-->
-  <div id="editor">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+      <!-- THEME:
+      <select id="theme">
+        <option value="twilight" selected>twilight</option>
+        <option value="solarized_light">solarized light</option> 
+        I can add a lot more themes here if we want to keep this feature
+      </select>-->
+        <div id="editor">
+        </div>
+      </p>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+      <p>Room: {{roomname}}<br>
+      <button ng-click="reset()" class="btn btn-md btn-danger">Reset</button>
+      <button ng-click="submit()" class="btn btn-md btn-success">Submit</button>
+      <div>Time: {{clock.min}}:{{clock.sec|seconds}} </div>
   </div>
-</p>
+</div>

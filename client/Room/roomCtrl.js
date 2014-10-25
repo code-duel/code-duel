@@ -4,9 +4,11 @@ angular.module('app')
      //timer init variables
      $scope.clock = {
        time: 0,
+       min: 0,
+       sec: 0,
        timer: null,
        notcalled: true
-     }
+     };
 
      //here are our variables for start theme and prompt
      var theme = "twilight"; 
@@ -93,6 +95,11 @@ angular.module('app')
     $scope.startTimer = function() {
       $scope.clock.timer = $timeout(function(){
         $scope.clock.time++;
+        $scope.clock.sec++;
+        if ($scope.clock.sec === 60) {
+          $scope.clock.min++;
+          $scope.clock.sec = 0;
+        }
         $scope.startTimer();
       }, 1000);
     };
@@ -102,6 +109,6 @@ angular.module('app')
       $scope.clock.timer = null;
       $scope.clock.time = 0;
       $scope.clock.notcalled = true;
-    }
+    };
 
   });
