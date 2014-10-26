@@ -18,7 +18,7 @@ var users = {
   userCount: 0,
   socketList: [],
   userNames: [],
-  userRooms: [],
+  userRooms: []
 }
 
 io.on('connection', function(socket){
