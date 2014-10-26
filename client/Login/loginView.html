@@ -13,6 +13,9 @@
 					  <br>
 					  <p ng-show="pickNewRoom">That room is taken! Pick another one.</p>
 				  	<button ng-click="submitUserRoom()" class="btn btn-large btn-primary btn-block">Join</button>
+				  	<br>
+				  	<a href="" ng-click="showHighScores()">highscores</a>
+				     <p ng-show="highscores">{{ scoretext }}</p>
 				  </form>
 				</div>
 		  </div>
