@@ -1,7 +1,5 @@
 angular.module('app')
   .controller('loginCtrl', function($scope, $location, socket) {
-      $scope.highscores = false;
-      $scope.scoretext = "loading..."
 
     $scope.submitUserRoom = function(){
 
@@ -26,13 +24,15 @@ angular.module('app')
         console.log("You are in room:", room);
       });
     };
-
+      
+      //hide highscores on start
+      $scope.highscores = false;
       $scope.showHighScores = function(){
-        console.log('click')
-        $scope.highscores = true;
-
+        //toggle hide and show highscores
+        $scope.highscores = !$scope.highscores;
       };
-
+      
+      //this is emitted when user first connects to sockets
       socket.on('getHighScores', function(result){
         $scope.scoretext = result;
         console.log('highschores', $scope.scoretext, result);

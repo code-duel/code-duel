@@ -21,8 +21,10 @@ CREATE TABLE `Scores` (
   `loser` VARCHAR(30) NULL DEFAULT NULL,
   `score` INTEGER(10) NULL DEFAULT NULL,
   `loserscore` INTEGER(10) NULL DEFAULT NULL,
+  `roomname` VARCHAR(20) NULL DEFAULT NULL,
   `prompt` VARCHAR(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id `)
+  `time`  VARCHAR(20) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 
 DROP TABLE IF EXISTS `users`;
@@ -35,12 +37,6 @@ CREATE TABLE `users` (
   `scoretotal` INTEGER(10) NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 );
-
-
-
-
-
-
 
 -- DROP TABLE IF EXISTS `Prompts`;
 		

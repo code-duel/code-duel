@@ -29,7 +29,6 @@ angular.module('app')
      socket.on('joinedRoom', function(roominfo){
        console.log(roominfo.name + ' has been joined, BABIES');
        $scope.roomname = roominfo.name;
-       console.log(roominfo.player, "==============")
        $scope.playername = roominfo.player;
        $scope.playerId = roominfo.id;
      });
@@ -43,7 +42,7 @@ angular.module('app')
        
        //add opponents to room
        $scope.allPlayers = problem.opponents
-       //.splice(problem.opponents.indexOf($scope.playername),1)
+       
 
        //delay clock 1 second to help sync up clocks
        if($scope.clock.notcalled){
