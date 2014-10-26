@@ -29,8 +29,8 @@ angular.module('app')
      socket.on('joinedRoom', function(roominfo){
        console.log(roominfo.name + ' has been joined, BABIES');
        $scope.roomname = roominfo.name;
-       console.log(roominfo.name, "==============")
-       $scope.playername = roominfo.player
+       $scope.playername = roominfo.player;
+       $scope.playerId = roominfo.id;
      });
  
      socket.on('displayPrompt', function(problem){
@@ -39,6 +39,10 @@ angular.module('app')
        $scope.problemName = problem.problemName;
        $scope.noOpponent=false;
        editor.setValue($scope.prompt);
+       
+       //add opponents to room
+       $scope.allPlayers = problem.opponents
+       
 
        //delay clock 1 second to help sync up clocks
        if($scope.clock.notcalled){
@@ -95,8 +99,10 @@ angular.module('app')
         code: userCode, 
         problemName: $scope.problemName,
         timeTaken: $scope.clock.time,
-        player: $scope.playername
-        
+        player: $scope.playername,
+        roomname: $scope.roomname,
+        id: $scope.playerId,
+        players: $scope.allPlayers
       });
       $scope.stopTimer();
     };

@@ -13,9 +13,32 @@
 					  <br>
 					  <p ng-show="pickNewRoom">That room is taken! Pick another one.</p>
 				  	<button ng-click="submitUserRoom()" class="btn btn-large btn-primary btn-block">Join</button>
+				  	<br>
+				  	<a href="" ng-click="showHighScores()">highscores</a>
 				  </form>
 				</div>
 		  </div>
 		</div>
+     <p ng-show="highscores">
+        <table class="table table-hover table-stripe table-bordered">
+          <tr>
+            <th>Winner</th>
+            <th>Winning Score</th>
+            <th>Loser</th>
+            <th>Losing Score</th>
+            <th>Prompt</th>
+            <th>roomname</th>
+            <th>Date</th>
+          </tr>
+          <tr ng-repeat="entry in scoretext track by $index">
+				    <td>{{entry.winner}}</td>
+				    <td>{{entry.score}}</td>
+				    <td>{{entry.loser}}</td>
+				    <td>{{entry.loserscore}}</td>
+            <td>{{entry.prompt}}</td>
+            <td>{{entry.roomname}}</td>
+            <td>{{entry.time}}</td>
+          </tr>
+      </p>
 	</div>
 </div>
