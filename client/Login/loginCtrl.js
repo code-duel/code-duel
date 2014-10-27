@@ -14,6 +14,7 @@ angular.module('app')
             $scope.pickNewRoom = true;
             console.log("Pick a new room!");
           } else if (isFull === false) {
+            console.log($scope.username);
             socket.emit('addToRoom', { username:$scope.username, roomname: $scope.roomname});
             $location.url('/room'); 
           }

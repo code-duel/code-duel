@@ -33,8 +33,8 @@
       </div>
 
       <div>
-        <button ng-click="reset()" class="btn btn-md btn-danger">Reset</button>
-        <button ng-click="submit()" class="btn btn-md btn-danger">Submit</button>
+        <button ng-click="reset()" class="btn btn-md btn-danger" ng-disabled="sent">Reset</button>
+        <button ng-click="submit()" class="btn btn-md btn-danger" ng-disabled="sent">Submit</button>
       </div>
       <br />
       <div class="well" ng-show="noOpponent">
@@ -43,15 +43,11 @@
       <div class="well" ng-show="finishBeforeOpponent" ng-hide="!finishBeforeOpponent">
         Your score is {{score}}.<br />Waiting on your opponent to finish...
       </div>
-      <div class="well" ng-show="victory">
-        YOU HAVE WON! <br />
-        Your score: {{score}}<br />
-        Your opponent's score: {{isWinner.opponentScore}}
-      </div>
-      <div class="well" ng-show="defeat">
-        YOU HAVE LOST! <br />
-        Your score: {{score}}<br />
-        Your opponent's score: {{isWinner.opponentScore}}
+      <div class="well" ng-show="message">
+        {{message}}
+<!--         YOU HAVE {{wonOrLost}}!<br />
+        Your score: {{score}} <br />
+        Your opponent's score: {{opponentScore}} -->
       </div>
   </div>
 </div>
