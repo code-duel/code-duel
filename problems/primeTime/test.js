@@ -23,7 +23,7 @@ exports.testFunction = function(primeTime) {
 								(checkAry(primeTime(10), [2,3,5,7,11,13,17,19,23,29], 10)) +
 								(checkAry(primeTime(6), [2,3,5,7,11,13], 6)) + 
 								(checkAry(primeTime(16), [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59], 16));
-	return (testsPassed / totalTests) * 100;
+	return Math.floor((testsPassed / totalTests) * 100);
 };
 
 // in the future, tests.js needs to return feedback about
