@@ -1,6 +1,6 @@
 // this function returns a number from 0 to 100
 // indicating what percentage of tests were passed
-exports.testFunction = function(evenFib) {
+exports.testFunction = function(primeTime) {
 	var testsPassed = 0;
 	var totalTests = 5;
 
