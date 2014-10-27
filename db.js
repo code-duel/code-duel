@@ -6,7 +6,7 @@ var dbConnection = mysql.createConnection({
   database: "scoreboard"
 });
 
-// dbConnection.connect();
+dbConnection.connect();
 
 
 
