@@ -10,9 +10,12 @@ color: #E2E2E2\
 width: 1px;\
 background: #232323\
 }\
+.ace-twilight .ace_comment{\
+  color: green\
+}\
 .ace-twilight {\
 background-color: #141414;\
-color: #F8F8F8\
+color: #BBBBBB\
 }\
 .ace-twilight .ace_cursor {\
 color: #A7A7A7\
@@ -93,7 +96,7 @@ color: #E9C062\
 }\
 .ace-twilight .ace_comment {\
 font-style: italic;\
-color: #5F5A60\
+color: #FF564C\
 }\
 .ace-twilight .ace_variable {\
 color: #7587A6\
