@@ -1,6 +1,10 @@
 angular.module('app')
   .controller('roomCtrl', function($scope, $log, $timeout, socket) {
-     
+      
+    var clock = $('.clock').FlipClock(0, {
+      clockFace: 'MinuteCounter',
+      autoStart: false
+    });
      //timer init variables
      $scope.clock = {
        time: 0,
@@ -48,6 +52,7 @@ angular.module('app')
        if($scope.clock.notcalled){
          setTimeout(function(){
            $scope.startTimer();
+           clock.start();
          }, 1000);
          //only call timer 1x
          $scope.clock.notcalled = false;
@@ -57,6 +62,7 @@ angular.module('app')
     socket.on('destroyPrompt', function(){
        $scope.prompt = '//Your prompt will appear momentarily';
        //2($scope.prompt);
+       clock.stop();
        $scope.stopTimer();
       
      });
@@ -86,7 +92,6 @@ angular.module('app')
         }
       }, 1000);
      });
- 
     
     //this is where we will need to test the code
     $scope.submit = function() {

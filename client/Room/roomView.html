@@ -26,11 +26,17 @@
         </div>
       </p>
     </div>
-    <div class="col-lg-4 col-md-2 col-sm-2 col-xs-2">
-      <p>Room: {{roomname}}<br>
-      <button ng-click="reset()" class="btn btn-md btn-danger">Reset</button>
-      <button ng-click="submit()" class="btn btn-md btn-success">Submit</button>
-      <div>Time: {{clock.min}}:{{clock.sec|seconds}} </div>
+    <div class="col-lg-4 col-md-2 col-sm-2 col-xs-2" id="code-duel-HUD">
+      <div class="clock"></div>
+      <div>
+        <h4>Room: {{roomname}}</h4>
+      </div>
+
+      <div>
+        <button ng-click="reset()" class="btn btn-md btn-danger">Reset</button>
+        <button ng-click="submit()" class="btn btn-md btn-danger">Submit</button>
+      </div>
+      <br />
       <div class="well" ng-show="noOpponent">
         Your prompt will appear when your opponent joins the room. Ask a friend to join this room to duel!
       </div>
