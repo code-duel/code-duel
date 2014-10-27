@@ -164,10 +164,8 @@ io.on('connection', function(socket){
       // get the function evaluated
       eval(code.code); 
     } catch (e) {
-      //if there is an error log message..
-      if (e instanceof SyntaxError) {
-        console.log(e.message);
-      }
+      //if there is an error log..  
+      console.log(e);   
       //and score is set to zero
       errorsInCode = true;
       var score = 0;
@@ -194,9 +192,7 @@ io.on('connection', function(socket){
        
       } catch (e) {
         //log message if error when tests are run
-        if (e instanceof SyntaxError) {
-          console.log(e.message);
-        } 
+        console.log(e);
         //set score to zero
         var score = 0;  
       }
