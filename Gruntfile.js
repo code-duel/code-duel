@@ -18,6 +18,13 @@ module.exports = function(grunt) {
           stderr: true
         }
       },
+      startMySql: {
+        command: 'mysql.server restart',
+        options: {
+          stdout: true,
+          stderr: true
+        }
+      },
       nodemon: {
         command: 'nodemon server.js',
         options: {
@@ -56,7 +63,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('local', function() {
-    grunt.task.run(['shell:resetLocalDb', 'shell:nodemon']);
+    grunt.task.run(['shell:startMySql','shell:resetLocalDb', 'shell:nodemon']);
   })
 
 };

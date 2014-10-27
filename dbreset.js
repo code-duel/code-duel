@@ -1,8 +1,9 @@
 // RESETS the database. Drops the tables and recreates them
 
 var dbLocation = process.argv[2];
+console.log(dbLocation);
 
-if (dbLocation !== 'local' || dbLocation !== 'production') {
+if (!(dbLocation === 'local' || dbLocation === 'production')) {
 	console.log('ERROR in dbreset.js');
 	console.log('You must provide a database to reset as an argument');
 	console.log('Please provide \'local\' or \'production\' ');
@@ -22,10 +23,15 @@ if (dbLocation === 'production') {
     database: "as_f2aa6bc5b126b42"
 	});
 } else {
-	dbConnection = mysql.createConnection({
+  dbConnection = mysql.createConnection({
     user: "root",
-    password: "1234",
+    password: ""
   });
+}
+
+dbConnection.connect();
+
+if (dbLocation === 'local') {
   dbConnection.query('CREATE DATABASE IF NOT EXISTS scoreboard', function(err, results) {
     if (err) { console.log("ERROR setting up DB: " + err); }
   });
@@ -34,7 +40,7 @@ if (dbLocation === 'production') {
   });
 }
 
-dbConnection.connect();
+
 
 var count = 0;
 

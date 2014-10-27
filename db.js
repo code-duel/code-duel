@@ -3,7 +3,7 @@ var fs = require('fs');
 
 var dbConnection;
 
-if (true) {//process.env.NODE_ENV === 'production') {
+if (true) { //(process.env.NODE_ENV === 'production') {
   dbConnection = mysql.createConnection({
     host: "us-cdbr-azure-west-a.cloudapp.net",
     user: "bd676bdbd0f5d7",
@@ -13,7 +13,7 @@ if (true) {//process.env.NODE_ENV === 'production') {
 } else {
   dbConnection = mysql.createConnection({
     user: "root",
-    password: "1234",
+    password: "",
     database: "scoreboard"
   });
 }
@@ -22,7 +22,6 @@ dbConnection.connect();
 
 exports.getAllScores = function(callback){
   var query = 'SELECT * from scores ORDER BY score DESC;';
-
   dbConnection.query(query, function(err,results){
     if(err) { console.log(err); }
     callback(err, results);  
