@@ -24,3 +24,7 @@ html, body, .container{
 #code-duel-HUD {
   margin-top: 15px;
 }
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: rgb(127,7,0);
+}

@@ -25,13 +25,6 @@ angular.module('app')
       });
     };
       
-      //hide highscores on start
-      $scope.highscores = false;
-      $scope.showHighScores = function(){
-        //toggle hide and show highscores
-        $scope.highscores = !$scope.highscores;
-      };
-      
       //this is emitted when user first connects to sockets
       socket.on('getHighScores', function(result){
         $scope.scoretext = result;
