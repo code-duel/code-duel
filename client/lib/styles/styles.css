@@ -1,5 +1,14 @@
 html, body, .container{
     height: 100%;
+    background-color: rgb(40, 38, 38);
+    color: white;
+}
+.well{
+  background-color: rgb(63, 61, 61);
+  
+}
+.jumbotron{
+  background-color: rgb(63, 61, 61);
 }
 .container{
     display: table;
@@ -8,4 +17,7 @@ html, body, .container{
 .vertical-center-row{
     display: table-cell;
     vertical-align: middle;
+}
+.logo {
+  height: 50%;
 }
