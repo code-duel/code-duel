@@ -157,23 +157,50 @@ io.on('connection', function(socket){
 
   socket.on('sendCode', function(code){
 
-
-    // get the function evaluated
-    eval(code.code);
-    // run the tests
+   var errorsInCode = false;
+    
+    try {
+      // get the function evaluated
+      eval(code.code); 
+    } catch (e) {
+      //if there is an error log message..
+      if (e instanceof SyntaxError) {
+        console.log(e.message);
+      }
+      //and score is set to zero
+      errorsInCode = true;
+      var score = 0;
+    }
+    
+    
+    // grab the tests
     var test = require('./problems/' + code.problemName + '/test.js');
-    var percentageRight = test.testFunction(eval(code.problemName));
-    // Get the time it took to write the function
-    var timeTaken = code.timeTaken;
-    // Compute the score
 
-    // The algorithm is mostly based on the tests with time taken
-    // used to break ties between people who passed the same tests
-    console.log('rwf', percentageRight);
-    console.log('rwf', timeTaken);
-    var score = Math.floor((percentageRight * 10) + (100/timeTaken));
-    console.log("Final score is: " + score);
-    // Send the score back to the user
+    if(!errorsInCode){
+      try {
+
+      var percentageRight = test.testFunction(eval(code.problemName));
+      // Get the time it took to write the function
+      var timeTaken = code.timeTaken;
+      // Compute the score
+    
+      // The algorithm is mostly based on the tests with time taken
+      // used to break ties between people who passed the same tests
+      console.log('rwf', percentageRight);
+      console.log('rwf', timeTaken);
+      var score = Math.floor((percentageRight * 10) + (100/timeTaken));
+      console.log("Final score is: " + score);
+       
+      } catch (e) {
+        //log message if error when tests are run
+        if (e instanceof SyntaxError) {
+          console.log(e.message);
+        } 
+        //set score to zero
+        var score = 0;  
+      }
+    }
+
     io.sockets.in(userId).emit('sendScore', score);
     
     // look at the user obj to figure out where we are currently
