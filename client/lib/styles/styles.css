@@ -21,3 +21,6 @@ html, body, .container{
 .logo {
   height: 50%;
 }
+#code-duel-HUD {
+  margin-top: 15px;
+}
