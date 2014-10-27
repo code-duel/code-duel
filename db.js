@@ -6,20 +6,20 @@ var dbConnection = mysql.createConnection({
   database: "scoreboard"
 });
 
-dbConnection.connect();
+// dbConnection.connect();
 
 
 
 
 exports.getAllScores = function(callback){
-  var query = 'SELECT * from scores ORDER BY score DESC;'
+  var query = 'SELECT * from scores ORDER BY score DESC;';
 
   dbConnection.query(query, function(err,results){
-    if(err) { console.log(err) };
-    console.log(err, "getting high scores")
+    if(err) { console.log(err); }
+    console.log(err, "getting high scores");
     callback(err, results);  
-  })
-}
+  });
+};
 
 exports.saveScore = function(results){
   var query = 'INSERT INTO Scores(winner, loser, score, loserscore, roomname, prompt, time) VALUES (?, ?, ?, ?, ?, ?, ?);';
