@@ -23,7 +23,7 @@ var users = {
   socketList: [],
   userNames: [],
   userRooms: []
-}
+};
 
 io.on('connection', function(socket){
 
@@ -54,29 +54,28 @@ io.on('connection', function(socket){
     var roomLen = io.sockets.adapter.rooms[room];
 
 
-
- 
     // if room isn't full, add the user and update the users object
 
     var addUser =  function(){
-      users.socketList.push(userId);
-      users.userNames.push(user);
-      users.userRooms.push([userId, user, room, 0]);
-      socket.join(room);
-     
-      //send room and user data to room
-      var roominfo = {
-        name: room,
-        id: userId,
-        player: user
-      };
+      if (users.socketList.indexOf(userId) === -1){
+        users.socketList.push(userId);
+        users.userNames.push(user);
+        users.userRooms.push([userId, user, room, 0]);
+        socket.join(room);
+        //send room and user data to room
+        var roominfo = {
+          name: room,
+          id: userId,
+          player: user
+        };
 
-      console.log(user ,"(",userId,")", "added to", room);
-      setTimeout(function() {
-        io.sockets.in(userId).emit('joinedRoom', roominfo);
-      }, 1000)
-      
+        console.log(user ,"(",userId,")", "added to", room);
+        setTimeout(function() {
+          io.sockets.in(userId).emit('joinedRoom', roominfo);
+        }, 1000);
+      }
     };
+     
     
     //   //check if user exist
     // db.checkIfUserExists(user, function(exists){
@@ -146,7 +145,7 @@ io.on('connection', function(socket){
     } else {
       // this needs to check for 4 items because 
       // we're adding two extra properties per user the roomLen array
-      isFull = Object.keys(roomLen).length === 4 ? true : false;
+      isFull = Object.keys(roomLen).length > 3 ? true : false;
     }
 
     console.log("Fullness status of", specificRoom, ":", isFull);

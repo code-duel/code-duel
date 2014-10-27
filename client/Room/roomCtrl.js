@@ -1,6 +1,6 @@
 angular.module('app')
   .controller('roomCtrl', function($scope, $log, $timeout, socket) {
-      
+    $scope.sent = false;
     var clock = $('.clock').FlipClock(0, {
       clockFace: 'MinuteCounter',
       autoStart: false
@@ -45,7 +45,7 @@ angular.module('app')
        editor.setValue($scope.prompt);
        
        //add opponents to room
-       $scope.allPlayers = problem.opponents
+       $scope.allPlayers = problem.opponents;
        
 
        //delay clock 1 second to help sync up clocks
@@ -61,6 +61,8 @@ angular.module('app')
 
     socket.on('destroyPrompt', function(){
        $scope.prompt = '//Your prompt will appear momentarily';
+      editor.setValue($scope.prompt);
+       $scope.noOpponent=true;
        //2($scope.prompt);
        clock.stop();
        $scope.stopTimer();
@@ -71,6 +73,7 @@ angular.module('app')
       console.log(codeScore, "CODE SCORE");
       //var codeResult = codeScore.result;
       $scope.score = codeScore;
+      clock.stop()
       $scope.finishBeforeOpponent=true;
       // editor.setValue('// Your score is: ' + $scope.score + '\n // Now waiting for your opponent to finish');
       //editor.setValue('// Your code resulted in: ' + codeResult + ' ||  Your score is: ' + $scope.score);
@@ -81,14 +84,15 @@ angular.module('app')
       setTimeout(function(){
         if(isWinner.isWinner){
           $scope.opponentScore = isWinner.opponentScore;
-          $scope.finishBeforeOpponent=false;
-          $scope.victory = true;
-          // editor.setValue('// YOU HAVE WON! Your score is ' + $scope.score + '\n// Your oppenents score was ' + isWinner.opponentScore);
+          $scope.message = "WINNER";
+          // alert('wiiinnnnner');
+          $('.well').html('YOU HAVE WON! <br> Your score: ' + $scope.score + '<br>Your opponent\'s score: ' + isWinner.opponentScore);
+
         } else {
           $scope.opponentScore = isWinner.opponentScore;
-          $scope.finishBeforeOpponent=false;
-          $scope.defeat = true;
-          // editor.setValue('// YOU HAVE LOST! Your score is ' + $scope.score + '\n// Your oppenents score was ' + isWinner.opponentScore);
+          $scope.message = "LOSER";
+          $('.well').html('YOU HAVE LOST! <br> Your score: ' + $scope.score + '<br>Your opponent\'s score: ' + isWinner.opponentScore);
+          // editor.setValue('// YOU HAVE LOST! Your score is ' + $scope.score + '<br>// Your oppenents score was ' + isWinner.opponentScore);
         }
       }, 1000);
      });
@@ -110,6 +114,7 @@ angular.module('app')
         players: $scope.allPlayers
       });
       $scope.stopTimer();
+      $scope.sent = true;
     };
  
     //this resets the editor to the original prompt
