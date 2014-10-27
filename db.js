@@ -3,7 +3,7 @@ var fs = require('fs');
 
 var dbConnection;
 
-if (true) { //(process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   dbConnection = mysql.createConnection({
     host: "us-cdbr-azure-west-a.cloudapp.net",
     user: "bd676bdbd0f5d7",
