@@ -1,22 +1,30 @@
 var mysql = require('mysql');
+var fs = require('fs');
 
-var dbConnection = mysql.createConnection({
-  user: "root",
-  password: "1234",
-  database: "scoreboard"
-});
+var dbConnection;
+
+if (true) {//process.env.NODE_ENV === 'production') {
+  dbConnection = mysql.createConnection({
+    host: "us-cdbr-azure-west-a.cloudapp.net",
+    user: "bd676bdbd0f5d7",
+    password: "89f91f1f",
+    database: "as_f2aa6bc5b126b42"
+  });
+} else {
+  dbConnection = mysql.createConnection({
+    user: "root",
+    password: "1234",
+    database: "scoreboard"
+  });
+}
 
 dbConnection.connect();
-
-
-
 
 exports.getAllScores = function(callback){
   var query = 'SELECT * from scores ORDER BY score DESC;';
 
   dbConnection.query(query, function(err,results){
     if(err) { console.log(err); }
-    console.log(err, "getting high scores");
     callback(err, results);  
   });
 };

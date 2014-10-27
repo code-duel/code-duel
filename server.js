@@ -12,6 +12,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/client'));
 
+// Log server errors
+process.on('uncaughtException', function (err) {
+    console.log(err);
+}); 
 
 // globals
 var users = {
@@ -33,7 +37,6 @@ io.on('connection', function(socket){
   
   //grab all the highscores from the db and send them to login view
   db.getAllScores(function(err, scores){
-    console.log('getscores', scores)
     socket.emit('getHighScores', scores);
   });
 
