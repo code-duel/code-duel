@@ -86,12 +86,12 @@ angular.module('app')
           $scope.opponentScore = isWinner.opponentScore;
           $scope.message = "WINNER";
           // alert('wiiinnnnner');
-          $('.well').html('YOU HAVE WON! <br> Your score: ' + $scope.score + '<br>Your opponent\'s score: ' + isWinner.opponentScore);
+          $('.well').html('YOU HAVE WON! <br> Your score: ' + $scope.score + '<br>Your opponent\'s score: ' + isWinner.opponentScore + '<br /> <a href="http://codeduel.azurewebsites.net">Go Home</a>');
 
         } else {
           $scope.opponentScore = isWinner.opponentScore;
           $scope.message = "LOSER";
-          $('.well').html('YOU HAVE LOST! <br> Your score: ' + $scope.score + '<br>Your opponent\'s score: ' + isWinner.opponentScore);
+          $('.well').html('YOU HAVE LOST! <br> Your score: ' + $scope.score + '<br>Your opponent\'s score: ' + isWinner.opponentScore  + '<br /> <a href="http://codeduel.azurewebsites.net">Go Home</a>');
           // editor.setValue('// YOU HAVE LOST! Your score is ' + $scope.score + '<br>// Your oppenents score was ' + isWinner.opponentScore);
         }
       }, 1000);
