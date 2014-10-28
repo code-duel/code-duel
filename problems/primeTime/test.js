@@ -6,7 +6,7 @@ exports.testFunction = function(primeTime) {
 
     var checkAry = function(prime, actualAry, length){  
       var result = true;
-      if(prime === undefined || prime === null || prime.length !== length){
+      if( !Array.isArray(prime) || prime === undefined || prime === null || prime.length !== length){
       	return !result;
       }
       
